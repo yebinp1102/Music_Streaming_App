@@ -1,0 +1,35 @@
+/* logo나 title을 위한 폰트 
+  font-family: 'Black Han Sans', sans-serif;
+*/
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+
+/* 일반 폰트 
+  font-family: 'Noto Sans KR', sans-serif;
+*/
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+a{
+  text-decoration: none;
+  color: #fff;
+}
+
+ul, li{
+  list-style: none;
+}

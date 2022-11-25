@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/yebinp1102/Music_Streaming_App/issues"
   },
-  "homepage": "https://github.com/yebinp1102/Music_Streaming_App#readme"
+  "homepage": "https://github.com/yebinp1102/Music_Streaming_App#readme",
+  "dependencies": {
+    "react-router-dom": "^6.4.3"
+  }
 }

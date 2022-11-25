@@ -1,0 +1,14 @@
+.registerWrap{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.registerContainer{
+  width: 100%;
+  max-width: 1000px;
+  background-color: rgb(202, 202, 202);
+  padding: 1rem;
+}

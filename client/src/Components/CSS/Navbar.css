@@ -1,12 +1,13 @@
 .container{
-  width: 100%;
+  width: 100vw;
   height: 90px;
   background-color: #000;
+  position: fixed;
 }
 
 .wrap{
   max-width: 1200px;
-  height: 100%;
+  height: 90px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -22,11 +23,8 @@
   display: flex;
 }
 
-.menuWrap li{
+.menuWrap a{
   margin-right: 30px;
   font-weight: 700;
-}
-
-.menuWrap li:hover{
-  font-size: 1.05rem;
+  font-size: 1.1rem;
 }

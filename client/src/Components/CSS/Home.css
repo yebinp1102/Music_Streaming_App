@@ -1,0 +1,10 @@
+.HomeContainer{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  font-family: 'Noto Sans KR', sans-serif;
+}

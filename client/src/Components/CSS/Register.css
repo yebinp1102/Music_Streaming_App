@@ -4,11 +4,102 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 
 .registerContainer{
   width: 100%;
-  max-width: 1000px;
-  background-color: rgb(202, 202, 202);
-  padding: 1rem;
+  max-width: 600px;
+  border-radius: 10px;
+  background-color: #444;
+  padding: 3rem 2rem;
+  color: #fff;
+}
+
+.title{
+  text-align: center;
+}
+
+.registerForm{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-evenly; */
+  padding-bottom: 1.5rem;
+}
+
+input[type='text'],
+input[type='password'],
+button{
+  font-size: 22px;
+  padding: .75rem;
+  margin-top: .5rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: rgb(206, 206, 206);
+}
+
+label{
+  margin-top: 2.5rem;
+}
+
+button{
+  margin-top: 5rem;
+  padding: .9rem;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: rgb(81, 189, 178);
+  color: #fff;
+}
+
+
+.instructions {
+  font-size: 15px;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  padding: 0.5rem;
+  position: relative;
+  bottom: -10px;
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+}
+
+.instructions > svg {
+  margin-right: 0.25rem;
+  font-size: large;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.toLogin > p{
+  margin-bottom: 5px;
+}
+.toLogin > a {
+  color: cornflowerblue;
 }

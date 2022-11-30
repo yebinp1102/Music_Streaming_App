@@ -10,9 +10,13 @@ export const getAlbums = async (req, res) => {
 }
 
 export const postAlbum = async (req, res) => {
+  const album = req.body;
+  const newAlbum = new Album(album);
   try{
-
+    await newAlbum.save()
+    // status 201은 성공적인 creation을 의미.
+    res.status(201).json({newAlbum})
   }catch(err){
-
+    res.status(409).json({message: err.message})
   }
 }

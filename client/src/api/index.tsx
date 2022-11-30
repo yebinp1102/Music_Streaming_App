@@ -18,3 +18,7 @@ interface FormData {
 
 // auth
 export const registerAPI = (formData: FormData) => API.post('/api/auth/register', formData)
+
+
+// album
+export const fetchAlbums = () => axios.get('/api/album');

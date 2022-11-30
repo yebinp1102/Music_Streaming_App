@@ -1,10 +1,11 @@
 import React from 'react'
+import AllAlbums from '../Components/AllAlbums'
 import '../Components/CSS/Home.css'
 
 const Home: React.FC = () => {
   return (
     <div className="HomeContainer">
-        Hello World
+        <AllAlbums />
     </div>
   )
 }

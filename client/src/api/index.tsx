@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {Album} from '../redux/interfaces/Album'
 
 const API = axios.create({baseURL: 'http://localhost:5000'})
 
@@ -21,4 +22,5 @@ export const registerAPI = (formData: FormData) => API.post('/api/auth/register'
 
 
 // album
-export const fetchAlbums = () => axios.get('/api/album');
+export const fetchAlbums = () => API.get('/api/albums');
+export const createAlbum = (newPost : Album) => API.post('/api/albums/createAlbum', newPost);

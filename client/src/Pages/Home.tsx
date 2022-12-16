@@ -1,4 +1,3 @@
-import React from 'react'
 import AllAlbums from '../Components/AllAlbums'
 import '../Components/CSS/Home.css'
 

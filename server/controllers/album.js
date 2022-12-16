@@ -9,9 +9,9 @@ export const getAlbums = async (req, res) => {
   }
 }
 
-export const postAlbum = async (req, res) => {
+export const createAlbum = async (req, res) => {
   const album = req.body;
-  const newAlbum = new Album(album);
+  const newAlbum = new Album({...album, createdAt: new Date().toISOString()});
   try{
     await newAlbum.save()
     // status 201은 성공적인 creation을 의미.

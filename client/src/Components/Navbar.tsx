@@ -8,9 +8,14 @@ const Navbar:React.FC = () => {
       <div className='wrap'>
         <a className='logo' href='/'>🎧 MSA</a>
         <div className='menuWrap'>
-          <Link to='/'>요금제 보기</Link>
-          <Link to='/register'>회원가입</Link>
-          <Link to='/login'>로그인</Link>
+          <div>
+            <Link to='/'>요금제 보기</Link>
+            <Link to='/newAlbum'>앨범 등록하기</Link>
+          </div>
+          <div className='auth'>
+            <Link to='/register'>회원가입</Link>
+            <Link to='/login'>로그인</Link>
+          </div>
         </div>
       </div>
     </div>

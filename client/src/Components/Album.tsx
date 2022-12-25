@@ -4,10 +4,10 @@ import { Card, CardActions, CardMedia, Button, Typography, CardContent } from '@
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import DeleteIcon from '@material-ui/icons/Delete'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
-
+import { useNavigate } from 'react-router-dom'
 
 type AlbumType = {
-    _id?: string,
+    _id?: string | undefined,
     title: string,
     singer: string,
     description: string,
@@ -19,7 +19,17 @@ type AlbumType = {
     // song: 
 }
 
-const Album = ({album}: {album: AlbumType}) => {
+type AlbumProps = {
+  album: AlbumType,
+  setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>
+}
+// 현재 id 불러오기 
+const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    setCurrentId(album._id);
+    navigate('/newAlbum', {state : {albumId: album._id}})
+  }
   return (
     <Card>
       <CardMedia title={album.title} image={album.selectedFile} />
@@ -29,13 +39,13 @@ const Album = ({album}: {album: AlbumType}) => {
         <Typography variant='h6'>{album.createdAt?.toString().slice(0, 10)}</Typography>
       </div>
       <div className=''>
-        <Button style={{color: 'red'}} size='small' onClick={() => {}}>
-          <MoreHorizIcon fontSize='default' />
+        <Button style={{color: 'red'}} size='small' onClick={() => handleEdit()}>
+          <MoreHorizIcon />
         </Button>
       </div>
       <div className=''>
         <Typography variant='body2' color='textSecondary'>
-          {album.tags.map(tag => `#${tag}`)}
+          {album.tags && album.tags.map(tag => `#${tag}`)}
         </Typography>
       </div>
       <CardContent>

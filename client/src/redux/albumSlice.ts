@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { stat } from "fs";
 import * as api from '../api'
 import {Album} from '../redux/interfaces/Album'
 
@@ -23,8 +22,26 @@ export const createAlbum = createAsyncThunk<Album, any>(
   async(album, thunkAPI) => {
     try{
       const {data} = await api.createAlbum(album);
-      console.log('data :',data);
       alert('앨범이 등록 되었습니다.')
+      return data
+    }catch(err){
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
+type albumInfoType = {
+  currentId: string,
+  albumData : Album
+}
+
+export const updateAlbum = createAsyncThunk(
+  "albums/updateAlbum",
+  async(albumInfo : albumInfoType , thunkAPI) => {
+    const {currentId, albumData} = albumInfo
+    try{
+      const {data} = await api.updateAlbum(currentId, albumData);
+      alert('앨범 정보가 수정 되었습니다.')
       return data
     }catch(err){
       return thunkAPI.rejectWithValue(err)
@@ -69,12 +86,15 @@ export const albumSlice = createSlice({
     builder.addCase(getAlbums.rejected, (state, action) => {
       state.errors = action.payload
     });
-  //   builder.addCase(createAlbum.fulfilled, (state, action) => {
-  //     state.push(action.payload);
-  //   })  
-  //   builder.addCase(createAlbum.rejected, (state, action) => {
-  //     state = action.payload
-  //   })
+    builder.addCase(createAlbum.fulfilled, (state, action) => {
+      state.albums?.push(action.payload)
+    })  
+    builder.addCase(createAlbum.rejected, (state, action) => {
+      state.errors = action.payload
+    })
+    builder.addCase(updateAlbum.fulfilled, (state, action) => {
+      state.albums?.map((album) => album._id === action.payload._id ? action.payload : album)
+    })
   }
 })
 

@@ -5,11 +5,11 @@ import { useAppDispatch, useAppSelector } from '../redux/store';
 import Album from './Album'
 import './CSS/AllAlbums.css'
 
-const AllAlbums: React.FC = () => {
+const AllAlbums = ({setCurrentId} : {setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>}) => {
 
   const dispatch = useAppDispatch();
   const albums = useAppSelector(state => state.album.albums);
-  console.log('albums : ', albums);
+  console.log(albums)
 
   const initApp = useCallback(async()=>{
     await dispatch(getAlbums());
@@ -24,7 +24,7 @@ const AllAlbums: React.FC = () => {
       <Grid container alignItems='stretch' spacing={3}>
         {albums.map( album => (
           <Grid key={album._id} xs={12} sm={6} item>
-            <Album album={album} />
+            <Album album={album} setCurrentId={setCurrentId} />
           </Grid>
         ))}
       </Grid>

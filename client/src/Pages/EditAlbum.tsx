@@ -4,13 +4,21 @@ import { Album } from '../redux/interfaces/Album'
 import bgimage from '../utils/bgImage.jpg'
 import {Button, TextField} from '@material-ui/core'
 import FileBase from 'react-file-base64'
-import { useAppDispatch } from '../redux/store'
-import { createAlbum } from '../redux/albumSlice'
+import { useAppDispatch, useAppSelector } from '../redux/store'
+import { createAlbum, updateAlbum } from '../redux/albumSlice'
 import { useNavigate } from 'react-router-dom'
 
-const CreateAlbum : React.FC = () => {
+type currentIdType = {
+  currentId : string | undefined
+  setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>
+}
+
+const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
+  const album = useAppSelector(state => currentId ? state.album.albums?.find((a) => a._id === currentId) : null)
+  console.log(album)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const initialAlbum = {
     title: '',
     description: '',
@@ -21,12 +29,19 @@ const CreateAlbum : React.FC = () => {
     likeCount : 0,
     createdAt: null,
   }
-
   const [albumData, setAlbumData] = useState<Album>(initialAlbum)
+
+  useEffect(() => {
+    if(album) setAlbumData(album);
+  },[album])
 
   const handleSubmit = (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(createAlbum(albumData))
+    if(currentId){
+      dispatch(updateAlbum({currentId, albumData}))
+    }else{
+      dispatch(createAlbum(albumData))
+    }
     navigate('/')
   }
 
@@ -37,7 +52,7 @@ const CreateAlbum : React.FC = () => {
   return (
     <div className='createContainer' style={{backgroundImage: `url(${bgimage})`}}>
       <div className='createForm'>
-        <h1>새 앨범 등록하기</h1>
+        <h1>{currentId ? '앨범 내용 수정하기' : '새 앨범 등록하기'}</h1>
         <form onSubmit={handleSubmit}>
           <TextField // 제목
             style={{backgroundColor: 'rgb(206, 206, 206)', borderRadius: '5px'}}
@@ -88,10 +103,10 @@ const CreateAlbum : React.FC = () => {
           </div>
           <div className='btnWraps'>
             <Button variant='contained' color='primary' size="large" type="submit">
-              업로드하기
+              {currentId ? '업데이트' : '등록하기'}
             </Button>
             <Button variant='contained' color='secondary' size="large" onClick={clear}>
-              내용 삭제하기
+              내용 삭제
             </Button>
           </div>
         </form>

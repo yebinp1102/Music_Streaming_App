@@ -23,4 +23,5 @@ export const registerAPI = (formData: FormData) => API.post('/api/auth/register'
 
 // album
 export const fetchAlbums = () => API.get('/api/albums');
-export const createAlbum = (newPost : Album) => API.post('/api/albums/createAlbum', newPost);
+export const createAlbum = (newAlbum : Album) => API.post('/api/albums/createAlbum', newAlbum);
+export const updateAlbum = (id:string, updatedAlbum: Album) => API.patch(`/api/albums/${id}`, updatedAlbum)

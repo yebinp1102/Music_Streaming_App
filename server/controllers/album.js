@@ -45,3 +45,14 @@ export const deleteAlbum = async(req, res) => {
   }
 }
 
+export const likeAlbum = async(req, res) => {
+  const {id} = req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).sned('존재 하지 않는 앨범입니다.')
+  try{
+    const album = await Album.findById(id);
+    const updatedAlbum = await Album.findByIdAndUpdate(id, {likeCount: album.likeCount + 1}, {new: true})
+    res.json(updatedAlbum)
+  }catch(err){
+    res.status(400).json({message: err.message});
+  }
+}

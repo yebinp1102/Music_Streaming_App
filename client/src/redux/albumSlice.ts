@@ -60,6 +60,18 @@ export const deleteAlbum = createAsyncThunk(
   }
 )
 
+export const likeAlbum = createAsyncThunk(
+  "albums/likeAlbum",
+  async(id: string, thunkAPI) => {
+    try{
+      const {data} = await api.likeAlbum(id)
+      return data;
+    }catch(err){
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
 // state 초기값
 interface AlbumState {
   albums: Album[] | null;
@@ -109,6 +121,12 @@ export const albumSlice = createSlice({
       state.albums?.filter((album) => album._id !== action.payload);
     })
     builder.addCase(deleteAlbum.rejected, (state, action) => {
+      state.errors = action.payload
+    })
+    builder.addCase(likeAlbum.fulfilled, (state, action) => {
+      state.albums?.map((album) => album._id === action.payload._id ? action.payload : album)
+    })
+    builder.addCase(likeAlbum.rejected, (state, action) => {
       state.errors = action.payload
     })
   }

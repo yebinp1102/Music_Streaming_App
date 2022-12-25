@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../redux/store'
-import { deleteAlbum } from '../redux/albumSlice'
+import { deleteAlbum, likeAlbum } from '../redux/albumSlice'
 
 type AlbumType = {
     _id?: string | undefined,
@@ -41,6 +41,11 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
     window.location.replace('/')
   }
 
+  const handleLike = (id: string) => {
+    dispatch(likeAlbum(id))
+    window.location.replace('/')
+  }
+
   return (
     <Card>
       <CardMedia title={album.title} image={album.selectedFile} />
@@ -56,14 +61,14 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
       </div>
       <div className=''>
         <Typography variant='body2' color='textSecondary'>
-          {album.tags && album.tags.map(tag => `#${tag}`)}
+          {album.tags && album.tags.map(tag => ` #${tag}`)}
         </Typography>
       </div>
       <CardContent>
         <Typography variant='h5' gutterBottom>{album.title}</Typography>
       </CardContent>
       <CardActions>
-        <Button size='small' color='primary' onClick={() => {}}>
+        <Button size='small' color='primary' onClick={() => album._id && handleLike(album._id)}>
           <ThumbUpAltIcon fontSize='small'/>
           좋아요 {album.likeCount}
         </Button>

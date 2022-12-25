@@ -92,7 +92,7 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
             fullWidth
             label='tags'
             value={albumData.tags}
-            // onChange={(e) => setAlbumData({...albumData, tags: e.target.value})}
+            onChange={(e) => setAlbumData({...albumData, tags: e.target.value.split(',')})}
           />
           <div>
             <FileBase

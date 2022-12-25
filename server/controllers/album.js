@@ -33,3 +33,15 @@ export const updateAlbum = async(req, res) => {
     res.status(400).json({message: err.message});
   }
 }
+
+export const deleteAlbum = async(req, res) => {
+  const {id} = req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).sned('존재 하지 않는 앨범입니다.')
+  try{
+    await Album.findByIdAndRemove(id);
+    res.json(id)
+  }catch(err){
+    res.status(400).json({message: err.message});
+  }
+}
+

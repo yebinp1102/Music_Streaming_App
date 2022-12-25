@@ -49,6 +49,17 @@ export const updateAlbum = createAsyncThunk(
   }
 )
 
+export const deleteAlbum = createAsyncThunk(
+  "albums/deleteAlbum",
+  async(id : string, thunkAPI) => {
+    try{
+      await api.deleteAlbum(id);
+    }catch(err){
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
 // state 초기값
 interface AlbumState {
   albums: Album[] | null;
@@ -79,7 +90,6 @@ export const albumSlice = createSlice({
   },
   // extraReducer는 프로미스의 진행 상태에 따라서 실행되는 리듀서 입니다.
   extraReducers: (builder) => {
-  //   // getAlbums Action Creator's Result
     builder.addCase(getAlbums.fulfilled, (state, action) => {
       state.albums = action.payload
     });
@@ -94,6 +104,12 @@ export const albumSlice = createSlice({
     })
     builder.addCase(updateAlbum.fulfilled, (state, action) => {
       state.albums?.map((album) => album._id === action.payload._id ? action.payload : album)
+    })
+    builder.addCase(deleteAlbum.fulfilled, (state, action) => {
+      state.albums?.filter((album) => album._id !== action.payload);
+    })
+    builder.addCase(deleteAlbum.rejected, (state, action) => {
+      state.errors = action.payload
     })
   }
 })

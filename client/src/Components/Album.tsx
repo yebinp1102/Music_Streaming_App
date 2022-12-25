@@ -5,6 +5,8 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import DeleteIcon from '@material-ui/icons/Delete'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../redux/store'
+import { deleteAlbum } from '../redux/albumSlice'
 
 type AlbumType = {
     _id?: string | undefined,
@@ -25,11 +27,20 @@ type AlbumProps = {
 }
 // 현재 id 불러오기 
 const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const handleEdit = () => {
     setCurrentId(album._id);
     navigate('/newAlbum', {state : {albumId: album._id}})
   }
+
+  const handleDelete = (id : string) => {
+    dispatch(deleteAlbum(id))
+    alert('삭제 되었습니다.')
+    window.location.replace('/')
+  }
+
   return (
     <Card>
       <CardMedia title={album.title} image={album.selectedFile} />
@@ -56,7 +67,7 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
           <ThumbUpAltIcon fontSize='small'/>
           좋아요 {album.likeCount}
         </Button>
-        <Button size='small' color='secondary' onClick={() => {}}>
+        <Button size='small' color='secondary' onClick={() => album._id && handleDelete(album._id)}>
           <DeleteIcon fontSize='small'/>
           삭제하기
         </Button>

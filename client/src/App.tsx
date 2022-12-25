@@ -8,9 +8,6 @@ import Login from './Pages/Login';
 import CreateAlbum from './Pages/EditAlbum';
 
 const App: React.FC = () => {
-  type IdType = {
-    currentId: string | undefined
-  }
   const [currentId, setCurrentId] = useState<string | undefined>('');
   return (
     <Router>

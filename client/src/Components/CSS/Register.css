@@ -27,9 +27,9 @@
   padding-bottom: 1.5rem;
 }
 
-input[type='text'],
-input[type='password'],
-button{
+.registerForm input[type='text'],
+.registerForm input[type='password'],
+.registerForm button{
   font-size: 22px;
   padding: .75rem;
   margin-top: .5rem;
@@ -38,11 +38,11 @@ button{
   background-color: rgb(206, 206, 206);
 }
 
-label{
+.registerForm label{
   margin-top: 2.5rem;
 }
 
-button{
+.registerForm button{
   margin-top: 5rem;
   padding: .9rem;
   font-size: 1rem;

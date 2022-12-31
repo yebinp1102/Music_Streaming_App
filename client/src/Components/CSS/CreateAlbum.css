@@ -1,0 +1,36 @@
+.createContainer{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.createForm{
+  width: 100%;
+  max-width: 750px;
+  padding: 1.5rem;
+  border-radius: 10px;
+  background-color: #eee;
+}
+
+.createForm form{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.MuiInputBase-root fieldset{
+  border-color: #fff;
+}
+
+.createForm h1{
+  margin: 40px 0;
+  text-align: center;
+}
+
+.btnWraps{
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}

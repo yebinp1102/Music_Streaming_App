@@ -1,10 +1,10 @@
-import React from 'react'
+import AllAlbums from '../Components/AllAlbums'
 import '../Components/CSS/Home.css'
 
-const Home: React.FC = () => {
+const Home= ({setCurrentId} : {setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>}) => {
   return (
     <div className="HomeContainer">
-        Hello World
+        <AllAlbums  setCurrentId={setCurrentId}/>
     </div>
   )
 }

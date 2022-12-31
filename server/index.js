@@ -16,7 +16,7 @@ dotenv.config();
 app.use(cors());
 
 app.use('/api/auth', authRoutes)
-app.use('/api/album', albumRoutes)
+app.use('/api/albums', albumRoutes)
 
 const PORT = process.env.PORT || 5000
 

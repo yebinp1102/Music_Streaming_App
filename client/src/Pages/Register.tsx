@@ -45,6 +45,7 @@ const Register: React.FC = () => {
 
   // 비밀번호 type을 선택자가 string 혹은 password로 선택 하도록
   const [showPwd, setShowPwd] = useState(false);
+  const [showConfirmPwd, setShowConfirmPwd] = useState(false)
 
   useEffect(()=>{
     userRef.current?.focus();
@@ -140,7 +141,7 @@ const Register: React.FC = () => {
           </label>
           <div className='pwdInput'>
             <input
-              type={showPwd ? 'text' : 'password'}
+              type={showConfirmPwd ? 'text' : 'password'}
               id='confirm_pwd'
               onChange={(e) => setMatchPwd(e.target.value)}
               value={matchPwd}
@@ -148,9 +149,9 @@ const Register: React.FC = () => {
               onFocus={() => setMatchFocus(true)}
               onBlur={() => setMatchFocus(false)}
             />
-            {showPwd ? 
-              <AiFillEye className='showIcon' onClick={() => setShowPwd(!showPwd)}/> :
-              <AiFillEyeInvisible className='showIcon' onClick={() => setShowPwd(!showPwd)}/>
+            {showConfirmPwd ? 
+              <AiFillEye className='showIcon' onClick={() => setShowConfirmPwd(!showConfirmPwd)}/> :
+              <AiFillEyeInvisible className='showIcon' onClick={() => setShowConfirmPwd(!showConfirmPwd)}/>
             }
           </div>
           <p id='confirmnote' className={matchFocus && !validMatch ? 'instructions' : 'offscreen'}>

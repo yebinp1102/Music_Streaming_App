@@ -9,7 +9,6 @@ export const getAlbums = createAsyncThunk<Album[]>(
   async(_, thunkAPI) => {
     try{
       const {data} = await api.fetchAlbums();
-      // console.log('data :', data)
       return data
     }catch(err){
       return thunkAPI.rejectWithValue(err)

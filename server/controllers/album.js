@@ -6,7 +6,7 @@ export const getAlbums = async (req, res) => {
     const Albums = await Album.find();
     res.status(200).json(Albums);
   }catch(err){
-    res.status(400).json({message: err.message})
+    res.status(400).json(err.message)
   }
 }
 
@@ -18,7 +18,7 @@ export const createAlbum = async (req, res) => {
     // status 201은 성공적인 creation을 의미.
     res.status(201).json({newAlbum})
   }catch(err){
-    res.status(409).json({message: err.message})
+    res.status(400).json(err.message)
   }
 }
 
@@ -30,7 +30,7 @@ export const updateAlbum = async(req, res) => {
     const updatedAlbum = await Album.findByIdAndUpdate(_id, album, {new: true});
     res.json(updatedAlbum)
   }catch(err){
-    res.status(400).json({message: err.message});
+    res.status(400).json(err.message)
   }
 }
 
@@ -41,7 +41,7 @@ export const deleteAlbum = async(req, res) => {
     await Album.findByIdAndRemove(id);
     res.json(id)
   }catch(err){
-    res.status(400).json({message: err.message});
+    res.status(400).json(err.message)
   }
 }
 
@@ -53,6 +53,6 @@ export const likeAlbum = async(req, res) => {
     const updatedAlbum = await Album.findByIdAndUpdate(id, {likeCount: album.likeCount + 1}, {new: true})
     res.json(updatedAlbum)
   }catch(err){
-    res.status(400).json({message: err.message});
+    res.status(400).json(err.message)
   }
 }

@@ -15,7 +15,6 @@ type currentIdType = {
 
 const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
   const album = useAppSelector(state => currentId ? state.album.albums?.find((a) => a._id === currentId) : null)
-  console.log(album)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 

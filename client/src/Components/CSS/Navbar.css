@@ -23,8 +23,27 @@
   display: flex;
 }
 
-.menuWrap a{
+.menuWrap a,
+.menuWrap p{
+  color: #fff;
   margin-right: 30px;
   font-weight: 700;
   font-size: 1.1rem;
+}
+
+.menuWrap .auth{
+  display: flex;
+  align-items: center;
+}
+
+.logout{
+  border: none;
+  padding: .45rem 1rem;
+  border-radius: 20px;
+  background-color: #a8a8a8;
+  color: #fff;
+}
+
+.logout:hover {
+  background-color: rgb(125, 125, 125);
 }

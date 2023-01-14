@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import '../Components/CSS/Auth.css'
+import * as api from '../api'
 
 import { Link, useNavigate } from 'react-router-dom'
 import bgimage from '../utils/bgImage.jpg'
@@ -20,6 +21,18 @@ const Login: React.FC = () => {
 
   const handleSubmit = async(e:React.FormEvent) => {
     e.preventDefault();
+    try{
+      const formData = {username : user, password : pwd}
+      const data = await api.loginAPI(formData);
+      localStorage.setItem('profile', JSON.stringify(data))
+      setUser("")
+      setPwd("")
+      setShowPwd(false)
+      alert('로그인에 성공했습니다.')
+      window.location.replace("/")
+    }catch(err : any){
+      console.log(err.message);
+    }
 
   }
 

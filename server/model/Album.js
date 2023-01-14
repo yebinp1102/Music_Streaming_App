@@ -7,9 +7,9 @@ const AlbumSchema = mongoose.Schema({
   composer: String,
   tags: [String],
   selectedFile: Object,
-  likeCount : {
-    type: Number,
-    default: 0
+  likes: {
+    type: [String],
+    default: []
   },
   createdAt: {
     type: Date,

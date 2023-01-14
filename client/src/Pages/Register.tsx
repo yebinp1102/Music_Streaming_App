@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../Components/CSS/Auth.css'
 import bgimage from '../utils/bgImage.jpg'
+import * as api from '../api'
+
 // 아이콘
 import {BsCheckLg} from 'react-icons/bs'
 import {FaTimes} from 'react-icons/fa'
@@ -9,7 +11,7 @@ import {AiFillEye} from 'react-icons/ai'
 import {AiFillEyeInvisible} from 'react-icons/ai'
 
 import { Link, useNavigate } from 'react-router-dom'
-import { registerAPI } from '../api'
+// import { registerAPI } from '../api'
 
 
 const Register: React.FC = () => {
@@ -68,8 +70,7 @@ const Register: React.FC = () => {
     e.preventDefault();
     try{
       const formData = {username : user, password : pwd, confirmPassword : matchPwd}
-      const {data} = await registerAPI(formData)
-      console.log('data : ',data);
+      const {data} = await api.registerAPI(formData)
       setSuccess(true)
       setUser("");
       setPwd("");
@@ -159,7 +160,7 @@ const Register: React.FC = () => {
           </p>
 
           {/* 회원가입 버튼은 적합한 이름이고, 적합한 비밀번호이며, 비밀번호가 일치할 때만 활성화 된다 */}
-          <button disabled={!validName || !validPwd || !validMatch ? true : false}>회원가입</button>
+          <button type='submit' disabled={!validName || !validPwd || !validMatch ? true : false}>회원가입</button>
         </form>
 
         <div className='changePage'>

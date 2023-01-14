@@ -94,10 +94,7 @@ export const albumSlice = createSlice({
     },
     addAlbum : (state, action:PayloadAction<Album>) => {
       state.albums?.push(action.payload)
-    },
-    // filterAlbum : (state, action) => {
-    //   state.albums = state.albums?.filter(album => album._id != action.payload)!
-    // }
+    }
   },
   // extraReducer는 프로미스의 진행 상태에 따라서 실행되는 리듀서 입니다.
   extraReducers: (builder) => {

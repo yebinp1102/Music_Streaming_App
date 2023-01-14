@@ -48,7 +48,7 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
 
   return (
     <Card>
-      <CardMedia title={album.title} image={album.selectedFile} />
+      {/* <CardMedia title={album.title} image={album.selectedFile} /> */}
       <div className=''>
         <Typography variant='h6'>{album.singer}</Typography>
         <Typography variant='h6'>{album.composer}</Typography>

@@ -9,7 +9,6 @@ const AllAlbums = ({setCurrentId} : {setCurrentId : React.Dispatch<React.SetStat
 
   const dispatch = useAppDispatch();
   const albums = useAppSelector(state => state.album.albums);
-  console.log(albums)
 
   const initApp = useCallback(async()=>{
     await dispatch(getAlbums());

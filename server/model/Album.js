@@ -3,18 +3,19 @@ import mongoose from "mongoose";
 const AlbumSchema = mongoose.Schema({
   title: String,
   description: String,
+  creator: String,
   singer: String,
   composer: String,
   tags: [String],
   selectedFile: Object,
-  likeCount : {
-    type: Number,
-    default: 0
+  likes: {
+    type: [String],
+    default: []
   },
   createdAt: {
     type: Date,
     default: new Date()
-  }
+  },
 })
 
 

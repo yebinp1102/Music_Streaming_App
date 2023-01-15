@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
-import '../Components/CSS/Register.css'
+import '../Components/CSS/Auth.css'
 import bgimage from '../utils/bgImage.jpg'
+import * as api from '../api'
+
 // 아이콘
 import {BsCheckLg} from 'react-icons/bs'
 import {FaTimes} from 'react-icons/fa'
 import {FcInfo} from 'react-icons/fc'
+import {AiFillEye} from 'react-icons/ai'
+import {AiFillEyeInvisible} from 'react-icons/ai'
+
 import { Link, useNavigate } from 'react-router-dom'
-import { registerAPI } from '../api'
+// import { registerAPI } from '../api'
 
 
 const Register: React.FC = () => {
@@ -40,6 +45,9 @@ const Register: React.FC = () => {
   // 성공적으로 양식을 작성하고 submit 했는지 판별
   const [success, setSuccess] = useState<Boolean>(false);
 
+  // 비밀번호 type을 선택자가 string 혹은 password로 선택 하도록
+  const [showPwd, setShowPwd] = useState(false);
+  const [showConfirmPwd, setShowConfirmPwd] = useState(false)
 
   useEffect(()=>{
     userRef.current?.focus();
@@ -61,10 +69,8 @@ const Register: React.FC = () => {
   const handleSubmit = async(e:React.FormEvent) => {
     e.preventDefault();
     try{
-      // const formData = JSON.stringify({username : user, password : pwd, confirmPassword : matchPwd})
       const formData = {username : user, password : pwd, confirmPassword : matchPwd}
-      const {data} = await registerAPI(formData)
-      console.log('data : ',data);
+      const {data} = await api.registerAPI(formData)
       setSuccess(true)
       setUser("");
       setPwd("");
@@ -72,27 +78,19 @@ const Register: React.FC = () => {
       alert('회원이 되신 것을 환영합니다!')
       navigate('/')
     }catch(err : any){
-      // if(err.response?.status === 409){
-      //   setErrMsg('이미 사용중인 유저명 입니다.')
-      // }else{
-      //   setErrMsg('회원가입에 실패 했습니다.')
-      // }
-      // if(err){
-      //   setErrMsg('회원가입에 실패 했습니다.')
-      // }
       console.log(err.message)
       errRef.current?.focus()
     }
   }
 
   return (
-    <div className='registerWrap' style={{backgroundImage: `url(${bgimage})`}}>
-      <div className='registerContainer'>
+    <div className='authWrap' style={{backgroundImage: `url(${bgimage})`}}>
+      <div className='authContainer'>
         <h2 className='title'>회원가입 Register</h2>
-        <form className='registerForm' onSubmit={handleSubmit}>
+        <form className='authForm' onSubmit={handleSubmit}>
           {/* 유저명 */}
           <label htmlFor='username'>
-            유저명 :
+            유저명 (Username) :
             <BsCheckLg className={validName ? 'valid' : 'hide'} /> {/* 사용 가능한 이름이면 아이콘 보이고, 아니면 숨김 */}
             <FaTimes className={validName || !user ?  'hide' : 'invalid'}/> {/* 사용 불가능한 이름이거나 아직 입력하지 않은 경우 아이콘 등장 */}
           </label>
@@ -113,47 +111,59 @@ const Register: React.FC = () => {
 
           {/* 비밀번호 */}
           <label htmlFor='password'>
-            비밀번호 :
+            비밀번호 (Password) :
             <BsCheckLg className={validPwd ? 'valid' : 'hide'} /> {/* 사용 가능한 비번이면 아이콘 보이고, 아니면 숨김 */}
             <FaTimes className={validPwd || !pwd ?  'hide' : 'invalid'}/> {/* 사용 불가능한 비번이거나 비번을 입력하지 않은 경우 아이콘 등장 */}
           </label>
-          <input
-            type='password'
-            id='password'
-            onChange={(e) => setPwd(e.target.value)}
-            value={pwd}
-            required
-            onFocus={() => setPwdFocus(true)}
-            onBlur={() => setPwdFocus(false)}
-          />
+          <div className='pwdInput'>
+            <input
+              type={showPwd ? 'text' : 'password'}
+              id='password'
+              onChange={(e) => setPwd(e.target.value)}
+              value={pwd}
+              required
+              onFocus={() => setPwdFocus(true)}
+              onBlur={() => setPwdFocus(false)}
+            />
+            {showPwd ? 
+              <AiFillEye className='showIcon' onClick={() => setShowPwd(!showPwd)}/> :
+              <AiFillEyeInvisible className='showIcon' onClick={() => setShowPwd(!showPwd)}/>
+            }
+          </div>
           <p id='pwdnote' className={pwdFocus && !validPwd ? 'instructions' : 'offscreen'}>
             <FcInfo /> 비밀번호는 반드시 하나 이상의 대문자, 소문자, 특수문자, 그리고 숫자를 포함해야 하며, 총 8~24자여야 합니다.
           </p>
 
           {/* 비밀번호 확인 */}
           <label htmlFor='confirm_pwd'>
-            비밀번호 확인 : 
+            비밀번호 확인 (Confirm Password) : 
             <BsCheckLg className={validMatch && matchPwd ? 'valid' : 'hide'} /> {/* 비밀번호가 일치하는 경우에만 아이콘 보임 */}
             <FaTimes className={validMatch || !matchPwd ?  'hide' : 'invalid'}/> {/* 비밀번호가 일치하지 않는 경우에만 보임 */}
           </label>
-          <input
-            type='password'
-            id='confirm_pwd'
-            onChange={(e) => setMatchPwd(e.target.value)}
-            value={matchPwd}
-            required
-            onFocus={() => setMatchFocus(true)}
-            onBlur={() => setMatchFocus(false)}
-          />
+          <div className='pwdInput'>
+            <input
+              type={showConfirmPwd ? 'text' : 'password'}
+              id='confirm_pwd'
+              onChange={(e) => setMatchPwd(e.target.value)}
+              value={matchPwd}
+              required
+              onFocus={() => setMatchFocus(true)}
+              onBlur={() => setMatchFocus(false)}
+            />
+            {showConfirmPwd ? 
+              <AiFillEye className='showIcon' onClick={() => setShowConfirmPwd(!showConfirmPwd)}/> :
+              <AiFillEyeInvisible className='showIcon' onClick={() => setShowConfirmPwd(!showConfirmPwd)}/>
+            }
+          </div>
           <p id='confirmnote' className={matchFocus && !validMatch ? 'instructions' : 'offscreen'}>
             <FcInfo /> 비밀번호가 일치하지 않습니다.
           </p>
 
           {/* 회원가입 버튼은 적합한 이름이고, 적합한 비밀번호이며, 비밀번호가 일치할 때만 활성화 된다 */}
-          <button disabled={!validName || !validPwd || !validMatch ? true : false}>회원가입</button>
+          <button type='submit' disabled={!validName || !validPwd || !validMatch ? true : false}>회원가입</button>
         </form>
 
-        <div className='toLogin'>
+        <div className='changePage'>
           <p>이미 회원이신가요 ?</p>
           <Link to='/login'>로그인 페이지로 이동하기</Link>
         </div>

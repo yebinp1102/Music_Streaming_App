@@ -6,7 +6,8 @@ export interface Album{
   composer: string,
   tags: string[],
   selectedFile: Object | any,
-  likeCount: number,
+  likes: string[],
   createdAt: Date | null,
+  creator: string
   // song: 
 }

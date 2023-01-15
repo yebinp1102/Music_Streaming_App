@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import '../Components/CSS/CreateAlbum.css'
 import { Album } from '../redux/interfaces/Album'
 import bgimage from '../utils/bgImage.jpg'
-import {Button, TextField} from '@material-ui/core'
+import {Button, Paper, TextField, Typography} from '@material-ui/core'
 import FileBase from 'react-file-base64'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import { createAlbum, updateAlbum } from '../redux/albumSlice'
@@ -15,9 +15,9 @@ type currentIdType = {
 
 const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
   const album = useAppSelector(state => currentId ? state.album.albums?.find((a) => a._id === currentId) : null)
-  console.log(album)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('profile') || '{}')
 
   const initialAlbum = {
     title: '',
@@ -26,8 +26,9 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
     composer: '',
     tags: [],
     selectedFile: {},
-    likeCount : 0,
+    likes : [],
     createdAt: null,
+    creator: '',
   }
   const [albumData, setAlbumData] = useState<Album>(initialAlbum)
 
@@ -47,6 +48,17 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
 
   const clear = () => {
     setAlbumData(initialAlbum);
+  }
+
+  // 로그인 하지 않은 유저가 앨범 추가 or 수정 페이지에 접근 했을 경우
+  if(!user?.data?.result){
+    return (
+      <Paper>
+        <Typography variant='h6' align='center'>
+          로그인 후 이용해주세요.
+        </Typography>
+      </Paper>
+    )
   }
 
   return (

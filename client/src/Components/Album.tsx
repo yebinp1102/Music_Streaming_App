@@ -2,6 +2,7 @@ import React from 'react'
 import './CSS/Album.css'
 import { Card, CardActions, CardMedia, Button, Typography, CardContent } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
 import DeleteIcon from '@material-ui/icons/Delete'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import { useNavigate } from 'react-router-dom'
@@ -10,13 +11,14 @@ import { deleteAlbum, likeAlbum } from '../redux/albumSlice'
 
 type AlbumType = {
     _id?: string | undefined,
+    creator: string,
     title: string,
     singer: string,
     description: string,
     composer: string,
     tags: string[],
     selectedFile: Object | any,
-    likeCount: number,
+    likes: string[],
     createdAt: Date | null,
     // song: 
 }
@@ -29,6 +31,7 @@ type AlbumProps = {
 const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('profile') || '{}')
 
   const handleEdit = () => {
     setCurrentId(album._id);
@@ -46,9 +49,21 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
     window.location.replace('/')
   }
 
+  const LikesIcon = (): JSX.Element => {
+    if(album?.likes?.length > 0){
+      return album.likes.find((like) => like === user?.data?.result?._id) 
+      ? (
+        <><ThumbUpAltIcon fontSize='small' />&nbsp; 좋아요{album?.likes?.length}</>
+      ) : (
+        <><ThumbUpOutlinedIcon fontSize='small' />&nbsp; 좋아요{album?.likes?.length}</>
+      ) 
+    }
+    return <><ThumbUpOutlinedIcon fontSize='small' />&nbsp; 좋아요 {album?.likes?.length}</>
+  }
+
   return (
     <Card>
-      <CardMedia title={album.title} image={album.selectedFile} />
+      {/* <CardMedia title={album.title} image={album.selectedFile} /> */}
       <div className=''>
         <Typography variant='h6'>{album.singer}</Typography>
         <Typography variant='h6'>{album.composer}</Typography>
@@ -68,14 +83,15 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
         <Typography variant='h5' gutterBottom>{album.title}</Typography>
       </CardContent>
       <CardActions>
-        <Button size='small' color='primary' onClick={() => album._id && handleLike(album._id)}>
-          <ThumbUpAltIcon fontSize='small'/>
-          좋아요 {album.likeCount}
+        <Button size='small' color='primary' disabled={!user?.data?.result} onClick={() => album._id && handleLike(album._id)}>
+          <LikesIcon />
         </Button>
-        <Button size='small' color='secondary' onClick={() => album._id && handleDelete(album._id)}>
+        {user?.data?.result?._id === album?.creator && (
+          <Button size='small' color='secondary' onClick={() => album._id && handleDelete(album._id)}>
           <DeleteIcon fontSize='small'/>
-          삭제하기
-        </Button>
+        삭제하기
+      </Button>
+        )}
       </CardActions>
     </Card>
   )

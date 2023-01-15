@@ -86,10 +86,12 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
         <Button size='small' color='primary' disabled={!user?.data?.result} onClick={() => album._id && handleLike(album._id)}>
           <LikesIcon />
         </Button>
-        <Button size='small' color='secondary' onClick={() => album._id && handleDelete(album._id)}>
+        {user?.data?.result?._id === album?.creator && (
+          <Button size='small' color='secondary' onClick={() => album._id && handleDelete(album._id)}>
           <DeleteIcon fontSize='small'/>
-          삭제하기
-        </Button>
+        삭제하기
+      </Button>
+        )}
       </CardActions>
     </Card>
   )

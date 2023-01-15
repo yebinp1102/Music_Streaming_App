@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const AlbumSchema = mongoose.Schema({
   title: String,
   description: String,
+  creator: String,
   singer: String,
   composer: String,
   tags: [String],
@@ -14,7 +15,7 @@ const AlbumSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: new Date()
-  }
+  },
 })
 
 

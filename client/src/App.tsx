@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Navbar from './Components/Navbar';
 import Login from './Pages/Login';
 import CreateAlbum from './Pages/EditAlbum';
-import AlbumDetail from './Pages/AlbumDetail';
 
 const App: React.FC = () => {
   const [currentId, setCurrentId] = useState<string | undefined>('');

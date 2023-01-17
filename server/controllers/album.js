@@ -76,3 +76,16 @@ export const likeAlbum = async(req, res) => {
     res.status(400).json(err.message)
   }
 }
+
+export const getAlbumsBySearch = async(req, res) => {
+  const {searchQuery} = req.query
+  try{
+    // text의 대소문자 구별 제거
+    const title = new RegExp(searchQuery, 'i');
+    // const albums = await Album.find({$or: [ {title} ]});
+    const albums = await Album.find({title});
+    res.json(albums)
+  }catch(err){
+    res.status(400).json({message: err.message})
+  }
+}

@@ -30,3 +30,5 @@ export const createAlbum = (newAlbum : Album) => API.post('/api/albums/createAlb
 export const updateAlbum = (id:string, updatedAlbum: Album) => API.patch(`/api/albums/${id}`, updatedAlbum)
 export const deleteAlbum = (id: string) => API.delete(`/api/albums/${id}`)
 export const likeAlbum = (id: string) => API.patch(`/api/albums/${id}/likeAlbum`);
+
+export const fetchAlbumsBySearch = (searchQuery: string) => API.get(`/api/albums/search?searchQuery=${searchQuery || 'none'}`)

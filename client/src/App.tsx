@@ -19,9 +19,10 @@ const App: React.FC = () => {
         <Route path='/' element={<Navigate replace to="/albums" />} />
         <Route path='/albums' element={<Home setCurrentId={setCurrentId}/>} />
         <Route path='/newAlbum' element={<CreateAlbum currentId={currentId} setCurrentId={setCurrentId} />} />
+        <Route path='/albums/search' element={<Home setCurrentId={setCurrentId} />} />
         {/* auth route */}
-        <Route path='/register' element={!user ? <Register /> : <Navigate replace to="/albums" /> }  />
-        <Route path='/login' element={!user ? <Login /> : <Navigate replace to="/albums" /> }  />
+        <Route path='/register' element={!user?.data ? <Register /> : <Navigate replace to="/albums" /> }  />
+        <Route path='/login' element={!user?.data ? <Login /> : <Navigate replace to="/albums" /> }  />
       </Routes>
     </Router>
   );

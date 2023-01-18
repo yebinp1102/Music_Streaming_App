@@ -5,23 +5,28 @@ import { useAppDispatch, useAppSelector } from '../redux/store';
 import Album from './Album'
 import './CSS/AllAlbums.css'
 
-const AllAlbums = ({setCurrentId} : {setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>}) => {
+const AllAlbums = ({setCurrentId, page} : {setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>, page: number}) => {
 
   const dispatch = useAppDispatch();
-  const albums = useAppSelector(state => state.album.albums);
+  const {albums} = useAppSelector(state => state.album);
+  const {isLoading} = useAppSelector(state => state.album)
+  console.log(albums, isLoading)
+
 
   const initApp = useCallback(async()=>{
-    await dispatch(getAlbums());
+    await dispatch(getAlbums(page));
   },[dispatch])
 
   useEffect(()=>{
     initApp();
   },[dispatch])
 
+  if(!albums?.length && !isLoading) return <div>아직 등록된 앨범이 없습니다. 첫 앨범을 등록해보세요.</div>
+
   return (
-    !albums?.length ? <CircularProgress/> : (
+    isLoading ? <CircularProgress/> : (
       <Grid container alignItems='stretch' spacing={3}>
-        {albums.map( album => (
+        {albums?.map( album => (
           <Grid key={album._id} xs={12} sm={6} item>
             <Album album={album} setCurrentId={setCurrentId} />
           </Grid>

@@ -2,9 +2,13 @@ import mongoose from "mongoose";
 import Album from "../model/Album.js"
 
 export const getAlbums = async (req, res) => {
+  const {page} = req.query
   try{
-    const Albums = await Album.find();
-    res.status(200).json(Albums);
+    const limit = 6;
+    const startIndex = (Number(page) - 1) * limit; // 모든 페이지의 시작 인덱스를 값으로 가짐
+    const total = await Album.countDocuments({}); 
+    const Albums = await Album.find().sort({_id: -1}).limit(limit).skip(startIndex) // 새로운 앨범이 위로 오도록 정렬
+    res.status(200).json({data: Albums, currentPage: Number(page), numberOfPage: Math.ceil(total/limit) });
   }catch(err){
     res.status(400).json(err.message)
   }

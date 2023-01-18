@@ -4,11 +4,11 @@ import {Album} from '../redux/interfaces/Album'
 
 
 // Action Creators : 백엔드에서 데이터를 가져오는 과정
-export const getAlbums = createAsyncThunk<Album[]>(
+export const getAlbums = createAsyncThunk(
   "albums/getAlbums",
-  async(_, thunkAPI) => {
+  async(page:number, thunkAPI) => {
     try{
-      const {data} = await api.fetchAlbums();
+      const {data} = await api.fetchAlbums(page);
       return data
     }catch(err){
       return thunkAPI.rejectWithValue(err)
@@ -86,13 +86,19 @@ export const getAlbumBySearch = createAsyncThunk(
 // state 초기값
 interface AlbumState {
   albums: Album[] | null;
-  singleAlbum: Album | null
-  errors: any
+  currentPage: number;
+  numberOfPage: number;
+  singleAlbum: Album | null;
+  errors: any;
+  isLoading: boolean;
 }
 
 const initialState: AlbumState = {
   albums: [],
+  currentPage: 1,
+  numberOfPage: 1,
   singleAlbum: null,
+  isLoading: true,
   errors: null,
 }
 
@@ -111,13 +117,19 @@ export const albumSlice = createSlice({
   // extraReducer는 프로미스의 진행 상태에 따라서 실행되는 리듀서 입니다.
   extraReducers: (builder) => {
     builder.addCase(getAlbums.fulfilled, (state, action) => {
-      state.albums = action.payload
+      state.isLoading = true
+      state.albums = action.payload.data;
+      state.currentPage = action.payload.currentPage
+      state.numberOfPage = action.payload.numberOfPage
+      state.isLoading = false
     });
     builder.addCase(getAlbums.rejected, (state, action) => {
       state.errors = action.payload
     });
     builder.addCase(createAlbum.fulfilled, (state, action) => {
+      state.isLoading = true
       state.albums?.push(action.payload)
+      state.isLoading = false;
     })  
     builder.addCase(createAlbum.rejected, (state, action) => {
       state.errors = action.payload
@@ -138,7 +150,9 @@ export const albumSlice = createSlice({
       state.errors = action.payload
     })
     builder.addCase(getAlbumBySearch.fulfilled, (state, action) => {
-      state.albums = action.payload
+      state.isLoading = true
+      state.albums = action.payload;
+      state.isLoading = false;
     })
     builder.addCase(getAlbumBySearch.rejected, (state, action) => {
       state.errors = action.payload

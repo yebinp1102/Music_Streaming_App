@@ -14,6 +14,16 @@ export const getAlbums = async (req, res) => {
   }
 }
 
+export const getAlbum = async (req, res) => {
+  const {id} = req.params;
+  try{
+    const album = await Album.findById(id);
+    res.status(200).json(album)
+  }catch(err){
+    res.status(400).json({message: err.message})
+  }
+}
+
 export const createAlbum = async (req, res) => {
   const album = req.body;
   const newAlbum = new Album({...album, createdAt: new Date().toISOString(), creator: req.userId});

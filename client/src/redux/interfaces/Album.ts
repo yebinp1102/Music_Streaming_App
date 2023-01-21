@@ -5,7 +5,7 @@ export interface Album{
   description: string,
   composer: string,
   tags: string[],
-  selectedFile: Object | any,
+  selectedFile: string | any,
   likes: string[],
   createdAt: Date | null,
   creator: string

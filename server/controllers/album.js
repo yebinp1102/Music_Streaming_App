@@ -92,14 +92,38 @@ export const likeAlbum = async(req, res) => {
 }
 
 export const getAlbumsBySearch = async(req, res) => {
-  const {searchQuery} = req.query
+  const {searchQuery} = req.params
   try{
     // text의 대소문자 구별 제거
     const title = new RegExp(searchQuery, 'i');
-    // const albums = await Album.find({$or: [ {title} ]});
     const albums = await Album.find({title});
     res.json(albums)
   }catch(err){
-    res.status(400).json({message: err.message})
+    res.status(400).json(err.message)
+  }
+}
+
+export const getAlbumsByTags = async(req, res) => {
+  const tags = req.query
+  console.log(tags)
+  try{
+    const albums = await Album.find({tags: {$in: tags.split(',')}});
+    console.log(albums)
+    res.status(200).json(albums)
+  }catch(err){
+    res.status(400).json(err.message)
+  }
+}
+
+export const commentAlbum = async(req, res) => {
+  const {id} = req.params;
+  const finalComment = req.body;
+  try{
+    const album = await Album.findById(id);
+    album.commenst.push(finalComment);
+    const updatedAlbum = await Album.findByIdAndUpdate(id, ...album, {new: true})
+    res.status(200).json(updatedAlbum);
+  }catch(err){
+    res.status(400).json(err.message)
   }
 }

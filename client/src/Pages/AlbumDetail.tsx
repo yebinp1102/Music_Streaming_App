@@ -1,22 +1,21 @@
 import { CircularProgress, Paper } from '@material-ui/core';
 import React, { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import {useParams } from 'react-router-dom';
 import { getAlbum } from '../redux/albumSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import '../Components/CSS/AlbumDetail.css';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+import CommentSeaction from '../Components/CommentSeaction';
 
 const AlbumDetail = () => {
-  const navigate = useNavigate();
   const {id} = useParams()
   const dispatch = useAppDispatch();
   const {album, isLoading} = useAppSelector(state => state.album);
-  console.log(album)
-  console.log(isLoading)
 
   useEffect(() => {
     if(id) dispatch(getAlbum(id))
   }, [id])
+
 
   if(!album) return null;
 
@@ -27,6 +26,10 @@ const AlbumDetail = () => {
       </Paper>
     )
   }
+
+  // const recommendedAlbums = album.filter((album) => {
+    
+  // })
 
   return (
     <div className='detailContainer'>
@@ -73,6 +76,7 @@ const AlbumDetail = () => {
           {/* 댓글 */}
           <div className='comment'>
             <h1>댓글</h1>
+            <CommentSeaction album={album} />
           </div>
       </div>
     </div>

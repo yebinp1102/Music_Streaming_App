@@ -11,10 +11,10 @@ import { albumSlice } from "./albumSlice";
 export const store = configureStore({
   reducer: {
     album: albumSlice.reducer
-  },
-  // middleware: getDefaultMiddleware({
-  //   serializableCheck: false
-  // })
+  }, 
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false
+  })
 })
 
 

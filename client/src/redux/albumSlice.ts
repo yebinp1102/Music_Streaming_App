@@ -86,15 +86,36 @@ export const likeAlbum = createAsyncThunk(
 
 export const getAlbumBySearch = createAsyncThunk(
   "albums/getAlbumBySearch",
-  async(searchQuery: string, thunkAPI) => {
+  async(search :string, thunkAPI) => {
     try{
-      const {data} = await api.fetchAlbumsBySearch(searchQuery);
+      const {data} = await api.fetchAlbumsBySearch(search);
+      console.log(data);
       return data;
     }catch(err){
       return thunkAPI.rejectWithValue(err)
     }
   }
 )
+
+type commentInfoType = {
+  finalComment: string,
+  id : string
+}
+
+// 댓글
+export const postComment = createAsyncThunk(
+  "albums/postComment",
+  async(commentInfo : commentInfoType, thunkAPI) => {
+    try{
+      const res = await api.comment(commentInfo)
+      console.log(res);
+      return res.data;
+    }catch(err){
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
 
 // state 초기값
 interface AlbumState {
@@ -168,13 +189,17 @@ export const albumSlice = createSlice({
       state.errors = action.payload
     })
     builder.addCase(getAlbumBySearch.fulfilled, (state, action) => {
-      state.isLoading = true
-      state.albums = action.payload;
+      state.isLoading = true;
+      state.albums = action.payload
       state.isLoading = false;
     })
     builder.addCase(getAlbumBySearch.rejected, (state, action) => {
       state.errors = action.payload
     })
+    builder.addCase(postComment.fulfilled, (state, action) => {
+      state.album = action.payload;
+    })
+
   }
 })
 

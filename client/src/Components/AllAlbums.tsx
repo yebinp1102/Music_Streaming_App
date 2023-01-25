@@ -10,8 +10,7 @@ const AllAlbums = ({setCurrentId, page} : {setCurrentId : React.Dispatch<React.S
   const dispatch = useAppDispatch();
   const {albums} = useAppSelector(state => state.album);
   const {isLoading} = useAppSelector(state => state.album)
-  console.log(albums, isLoading)
-
+  // console.log(albums, isLoading)
 
   const initApp = useCallback(async()=>{
     await dispatch(getAlbums(page));

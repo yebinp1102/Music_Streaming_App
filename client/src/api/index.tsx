@@ -20,9 +20,15 @@ interface FormData {
   confirmPassword ?: string
 }
 
+interface CommentInfo{
+  finalComment: string,
+  id: string
+}
+
 // auth
 export const registerAPI = (formData: FormData) => API.post('/api/auth/register', formData)
 export const loginAPI = (formData : FormData) => API.post('/api/auth/login', formData)
+
 
 // album
 export const fetchAlbums = (page: number) => API.get(`/api/albums?page=${page}`);
@@ -31,4 +37,6 @@ export const createAlbum = (newAlbum : Album) => API.post('/api/albums/createAlb
 export const updateAlbum = (id:string, updatedAlbum: Album) => API.patch(`/api/albums/${id}`, updatedAlbum)
 export const deleteAlbum = (id: string) => API.delete(`/api/albums/${id}`)
 export const likeAlbum = (id: string) => API.patch(`/api/albums/${id}/likeAlbum`);
-export const fetchAlbumsBySearch = (searchQuery: string) => API.get(`/api/albums/search?searchQuery=${searchQuery || 'none'}`)
+export const fetchAlbumsBySearch = (search : string) => API.get(`/api/albums/search/${search}`)
+export const fetchAlbumsByTags = (tags: string) => API.get(`/api/albums/searchTags?tags=${tags}`)
+export const comment = (commentInfo : CommentInfo) => API.post(`/api/albums/${commentInfo.id}/comment`, commentInfo.finalComment)

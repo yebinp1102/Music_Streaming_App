@@ -1,6 +1,6 @@
 import React from 'react'
 import './CSS/Album.css'
-import { Card, CardActions, ButtonBase, Button, Typography, CardContent } from '@material-ui/core'
+import { Card, CardActions, Typography, CardContent } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -68,16 +68,16 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
   return (
     <Card>
       {/* <CardMedia title={album.title} image={album.selectedFile} /> */}
-      <ButtonBase onClick={openAlbum}>
+      <div onClick={openAlbum}>
         <div className=''>
           <Typography variant='h6'>{album.singer}</Typography>
           <Typography variant='h6'>{album.composer}</Typography>
           <Typography variant='h6'>{album.createdAt?.toString().slice(0, 10)}</Typography>
         </div>
         <div className=''>
-          <Button style={{color: 'red'}} size='small' onClick={() => handleEdit()}>
+          <button style={{color: 'red'}} onClick={() => handleEdit()}>
             <MoreHorizIcon />
-          </Button>
+          </button>
         </div>
         <div className=''>
           <Typography variant='body2' color='textSecondary'>
@@ -87,16 +87,16 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
         <CardContent>
           <Typography variant='h5' gutterBottom>{album.title}</Typography>
         </CardContent>
-      </ButtonBase>
+      </div>
       <CardActions>
-        <Button size='small' color='primary' disabled={!user?.data?.result} onClick={() => album._id && handleLike(album._id)}>
+        <button color='primary' disabled={!user?.data?.result} onClick={() => album._id && handleLike(album._id)}>
           <LikesIcon />
-        </Button>
+        </button>
         {user?.data?.result?._id === album?.creator && (
-          <Button size='small' color='secondary' onClick={() => album._id && handleDelete(album._id)}>
+          <button  color='secondary' onClick={() => album._id && handleDelete(album._id)}>
           <DeleteIcon fontSize='small'/>
         삭제하기
-      </Button>
+      </button>
         )}
       </CardActions>
     </Card>

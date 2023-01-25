@@ -8,6 +8,6 @@ export interface Album{
   selectedFile: string | any,
   likes: string[],
   createdAt: Date | null,
-  creator: string
-  // song: 
+  creator: string,
+  comments: string[],
 }

@@ -29,7 +29,7 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
     likes : [],
     createdAt: null,
     creator: '',
-    comments: [],
+    comments: []
   }
   const [albumData, setAlbumData] = useState<Album>(initialAlbum)
 

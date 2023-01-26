@@ -117,12 +117,12 @@ export const getAlbumsByTags = async(req, res) => {
 
 export const commentAlbum = async(req, res) => {
   const {id} = req.params;
-  const finalComment = req.body;
+  const {comment} = req.body;
   try{
     const album = await Album.findById(id);
-    album.commenst.push(finalComment);
-    const updatedAlbum = await Album.findByIdAndUpdate(id, ...album, {new: true})
-    res.status(200).json(updatedAlbum);
+    album.comments.push(comment);
+    const updatedAlbum = await Album.findByIdAndUpdate(id, album, {new: true})
+    res.json(updatedAlbum);
   }catch(err){
     res.status(400).json(err.message)
   }

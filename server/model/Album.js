@@ -15,9 +15,9 @@ const AlbumSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: new Date()
-  },
+  }, 
   comments: {
-    type: [String],
+    type: Array,
     default: [],
   }
 })

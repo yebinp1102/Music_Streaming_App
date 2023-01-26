@@ -105,11 +105,10 @@ type commentInfoType = {
 // 댓글
 export const postComment = createAsyncThunk(
   "albums/postComment",
-  async(commentInfo : commentInfoType, thunkAPI) => {
+  async({finalComment, id} : commentInfoType, thunkAPI) => {
     try{
-      const res = await api.comment(commentInfo)
-      console.log(res);
-      return res.data;
+      const {data} = await api.comment(finalComment, id)
+      return data
     }catch(err){
       return thunkAPI.rejectWithValue(err)
     }

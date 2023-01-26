@@ -6,17 +6,17 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useAppDispatch } from '../redux/store';
 import { getAlbumBySearch } from '../redux/albumSlice';
 
-function useQuery(){
-  return new URLSearchParams(useLocation().search);
-}
+// function useQuery(){
+//   return new URLSearchParams(useLocation().search);
+// }
 
 const Navbar:React.FC = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile') || '{}'))
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const query = useQuery();
-  const searchQuery = query.get('searchQuery');
+  // const query = useQuery();
+  // const searchQuery = query.get('searchQuery');
 
 
   const logout = () => {

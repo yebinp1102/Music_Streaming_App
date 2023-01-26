@@ -13,3 +13,12 @@
 .commentInputField button{
   width: 6rem;
 }
+
+.commentsWrap{
+  margin-top: 20px;
+  padding: 1rem;
+}
+
+.commentsWrap div{
+  margin-bottom: 20px;
+}

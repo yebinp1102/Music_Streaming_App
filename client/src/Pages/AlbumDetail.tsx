@@ -11,6 +11,7 @@ const AlbumDetail = () => {
   const {id} = useParams()
   const dispatch = useAppDispatch();
   const {album, isLoading} = useAppSelector(state => state.album);
+  console.log(album);
 
   useEffect(() => {
     if(id) dispatch(getAlbum(id))

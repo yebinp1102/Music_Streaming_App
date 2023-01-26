@@ -11,16 +11,14 @@ type AlbumProps = {
 const CommentSeaction: React.FC<AlbumProps> = ({album}) => {
   const dispatch = useAppDispatch();
   const user = JSON.parse(localStorage.getItem('profile') || '{}').data
-  const [comments, setComments] = useState([1, 2, 3, 4]);
   const [comment, setComment] = useState('')
 
   const handleClick = () => {
-    if(album._id) {
-      const commentInfo = {
-        finalComment : `${user.result.username} : ${comment}`,
-        id : album?._id
-      }
-      dispatch(postComment(commentInfo))
+    if(album._id && comment) {
+      const id = album._id
+      const finalComment = `${user.result.username} : ${comment}`
+      dispatch(postComment({finalComment, id}))
+      setComment('');
     }
   }
 
@@ -37,9 +35,11 @@ const CommentSeaction: React.FC<AlbumProps> = ({album}) => {
           <button disabled={!comment} onClick={handleClick}>등록</button>
         </div>
       )}
-      {comments.map((c, i) => (
-        <div key={i}>댓글 {i}</div>
-      ))}
+      <div className="commentsWrap">
+        {album.comments.map((userComment, i) => (
+          <div key={i}>{userComment}</div>
+        ))}
+      </div>
     </div>
   )
 }

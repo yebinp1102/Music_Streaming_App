@@ -97,6 +97,19 @@ export const getAlbumBySearch = createAsyncThunk(
   }
 )
 
+export const getRecommendation = createAsyncThunk(
+  "albums/getRecommendation",
+  async(genre: string, thunkAPI) => {
+    try{
+      const {data} = await api.fetchRecommendation(genre)
+      return data;
+    }catch(err){
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
+
 type commentInfoType = {
   finalComment: string,
   id : string
@@ -119,7 +132,8 @@ export const postComment = createAsyncThunk(
 // state 초기값
 interface AlbumState {
   albums: Album[] | null;
-  album: Album | null
+  album: Album | null,
+  recommendation : Album[]
   currentPage: number;
   numberOfPage: number;
   errors: any;
@@ -129,6 +143,7 @@ interface AlbumState {
 const initialState: AlbumState = {
   albums: [],
   album: null,
+  recommendation : [],
   currentPage: 1,
   numberOfPage: 1,
   isLoading: true,
@@ -198,7 +213,15 @@ export const albumSlice = createSlice({
     builder.addCase(postComment.fulfilled, (state, action) => {
       state.album = action.payload;
     })
-
+    builder.addCase(postComment.rejected, (state, action) => {
+      state.errors = action.payload
+    })
+    builder.addCase(getRecommendation.fulfilled, (state, action) => {
+      state.recommendation = action.payload;
+    })
+    builder.addCase(getRecommendation.rejected, (state, action) => {
+      state.errors = action.payload
+    })
   }
 })
 

@@ -24,12 +24,12 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
     description: '',
     singer: '',
     composer: '',
-    tags: [],
     selectedFile: {},
     likes : [],
     createdAt: null,
     creator: '',
-    comments: []
+    comments: [],
+    genre: ''
   }
   const [albumData, setAlbumData] = useState<Album>(initialAlbum)
 
@@ -103,9 +103,9 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
             style={{backgroundColor: 'rgb(206, 206, 206)', borderRadius: '5px'}}
             variant='outlined'
             fullWidth
-            label='tags'
-            value={albumData.tags}
-            onChange={(e) => setAlbumData({...albumData, tags: e.target.value.split(',')})}
+            label='genre'
+            value={albumData.genre}
+            onChange={(e) => setAlbumData({...albumData, genre: e.target.value})}
           />
           <div>
             <FileBase

@@ -19,7 +19,8 @@ const AlbumSchema = mongoose.Schema({
   comments: {
     type: Array,
     default: [],
-  }
+  },
+  genre: String
 })
 
 

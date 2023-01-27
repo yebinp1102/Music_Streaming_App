@@ -16,11 +16,10 @@ type AlbumType = {
     singer: string,
     description: string,
     composer: string,
-    tags: string[],
     selectedFile: Object | any,
     likes: string[],
     createdAt: Date | null,
-    // song: 
+    genre: string
 }
 
 type AlbumProps = {
@@ -81,7 +80,7 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
         </div>
         <div className=''>
           <Typography variant='body2' color='textSecondary'>
-            {album.tags && album.tags.map(tag => ` #${tag}`)}
+            {album.genre}
           </Typography>
         </div>
         <CardContent>

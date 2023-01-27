@@ -1,21 +1,26 @@
 import { CircularProgress, Paper } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import {useParams } from 'react-router-dom';
-import { getAlbum } from '../redux/albumSlice';
+import { getAlbum, getRecommendation } from '../redux/albumSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import '../Components/CSS/AlbumDetail.css';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import CommentSeaction from '../Components/CommentSeaction';
+import AlbumCard from '../Components/AlbumCard';
 
 const AlbumDetail = () => {
   const {id} = useParams()
   const dispatch = useAppDispatch();
-  const {album, isLoading} = useAppSelector(state => state.album);
-  console.log(album);
+  const {album, recommendation ,isLoading} = useAppSelector(state => state.album);
+  console.log(recommendation)
 
   useEffect(() => {
     if(id) dispatch(getAlbum(id))
   }, [id])
+
+  useEffect(() => {
+    if(album) dispatch(getRecommendation(album.genre))
+  },[album])
 
 
   if(!album) return null;
@@ -68,10 +73,15 @@ const AlbumDetail = () => {
           {/* 다른 추천 음악 */}
           <div className='recommendation'>
             <h1>다른 추천 음악</h1>
-            <Paper>
-              <div>Album 01</div>
-
-            </Paper>
+            <div className='recommendationWrap'>
+              {recommendation.map((info) => (
+                <AlbumCard  albumInfo={info}
+                />
+              ))}
+              {!recommendation.length && (
+                <div>유사한 장르의 추천 곡이 없습니다.</div>
+              )}
+            </div>
           </div>
 
           {/* 댓글 */}

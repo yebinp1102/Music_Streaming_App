@@ -103,13 +103,11 @@ export const getAlbumsBySearch = async(req, res) => {
   }
 }
 
-export const getAlbumsByTags = async(req, res) => {
-  const tags = req.query
-  console.log(tags)
+export const getRecommendation = async(req, res) => {
+  const {genre} = req.params
   try{
-    const albums = await Album.find({tags: {$in: tags.split(',')}});
-    console.log(albums)
-    res.status(200).json(albums)
+    const recommendation = await Album.find({genre}).sort({_id: -1}).limit(4)
+    res.json(recommendation)
   }catch(err){
     res.status(400).json(err.message)
   }

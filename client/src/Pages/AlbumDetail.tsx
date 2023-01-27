@@ -1,18 +1,26 @@
 import { CircularProgress, Paper } from '@material-ui/core';
 import React, { useEffect } from 'react'
-import {useParams } from 'react-router-dom';
+import {useNavigate, useParams } from 'react-router-dom';
 import { getAlbum, getRecommendation } from '../redux/albumSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import '../Components/CSS/AlbumDetail.css';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import CommentSeaction from '../Components/CommentSeaction';
 import AlbumCard from '../Components/AlbumCard';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 
-const AlbumDetail = () => {
+type currentIdType = {
+  currentId : string | undefined
+  setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>
+}
+
+const AlbumDetail:React.FC<currentIdType> = ({currentId, setCurrentId}) => {
   const {id} = useParams()
   const dispatch = useAppDispatch();
   const {album, recommendation ,isLoading} = useAppSelector(state => state.album);
-  console.log(recommendation)
+  const user = JSON.parse(localStorage.getItem('profile') || '{}')
+  const navigate = useNavigate();
+  console.log(album?._id)
 
   useEffect(() => {
     if(id) dispatch(getAlbum(id))
@@ -33,17 +41,23 @@ const AlbumDetail = () => {
     )
   }
 
-  // const recommendedAlbums = album.filter((album) => {
-    
-  // })
-
+  const handleEdit = () => {
+    setCurrentId(album._id);
+    navigate('/newAlbum', {state : {albumId: album._id}})
+  }
+  
   return (
     <div className='detailContainer'>
       <div className='detailWrap'>
 
         {/* 앨범 정보 */}
         <div className='albumInfo'>
-          <h1>앨범 정보</h1>
+          <div className='albumEdit'>
+            <h1>앨범 정보</h1>
+            {user?.data?.result?._id === album?.creator && (
+              <MoreHorizIcon  onClick={() => handleEdit()} />
+            )}
+          </div>
           <div className='albumSummary' >
             <div className='albumCover'>
                 <img src={album.selectedFile} />

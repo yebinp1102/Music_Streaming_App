@@ -5,16 +5,15 @@ import bgimage from '../utils/bgImage.jpg'
 import {Button, Paper, TextField, Typography} from '@material-ui/core'
 import FileBase from 'react-file-base64'
 import { useAppDispatch, useAppSelector } from '../redux/store'
-import { createAlbum, updateAlbum } from '../redux/albumSlice'
+import { createAlbum, updateAlbum, getAlbum } from '../redux/albumSlice'
 import { useNavigate } from 'react-router-dom'
 
 type currentIdType = {
   currentId : string | undefined
-  setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
-const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
-  const album = useAppSelector(state => currentId ? state.album.albums?.find((a) => a._id === currentId) : null)
+const CreateAlbum :React.FC<currentIdType> = ({currentId}) => {
+  const {album} = useAppSelector(state => state.album)
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('profile') || '{}')
@@ -32,6 +31,10 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
     genre: ''
   }
   const [albumData, setAlbumData] = useState<Album>(initialAlbum)
+
+  useEffect(()=>{
+    if(currentId) dispatch(getAlbum(currentId));
+  },[currentId])
 
   useEffect(() => {
     if(album) setAlbumData(album);
@@ -72,7 +75,7 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
             variant='outlined'
             fullWidth
             label='title'
-            value={albumData.title}
+            value={albumData.title || ''}
             onChange={(e) => setAlbumData({...albumData, title: e.target.value})}
           />
           <TextField // 작곡가
@@ -80,7 +83,7 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
             variant='outlined'
             fullWidth
             label='composer'
-            value={albumData.composer}
+            value={albumData.composer || ''}
             onChange={(e) => setAlbumData({...albumData, composer: e.target.value})}
           />
           <TextField // 가수
@@ -88,7 +91,7 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
             variant='outlined'
             fullWidth
             label='singer'
-            value={albumData.singer}
+            value={albumData.singer || ''}
             onChange={(e) => setAlbumData({...albumData, singer: e.target.value})}
           />
           <TextField // 곡 or 앨범 설명
@@ -96,7 +99,7 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
             variant='outlined'
             fullWidth
             label='description'
-            value={albumData.description}
+            value={albumData.description || ''}
             onChange={(e) => setAlbumData({...albumData, description: e.target.value})}
           />
           <TextField // 태그
@@ -104,7 +107,7 @@ const CreateAlbum :React.FC<currentIdType> = ({currentId, setCurrentId}) => {
             variant='outlined'
             fullWidth
             label='genre'
-            value={albumData.genre}
+            value={albumData.genre || ''}
             onChange={(e) => setAlbumData({...albumData, genre: e.target.value})}
           />
           <div>

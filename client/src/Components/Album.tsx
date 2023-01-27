@@ -32,11 +32,6 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('profile') || '{}')
 
-  const handleEdit = () => {
-    setCurrentId(album._id);
-    navigate('/newAlbum', {state : {albumId: album._id}})
-  }
-
   const handleDelete = (id : string) => {
     dispatch(deleteAlbum(id))
     alert('삭제 되었습니다.')
@@ -72,11 +67,6 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
           <Typography variant='h6'>{album.singer}</Typography>
           <Typography variant='h6'>{album.composer}</Typography>
           <Typography variant='h6'>{album.createdAt?.toString().slice(0, 10)}</Typography>
-        </div>
-        <div className=''>
-          <button style={{color: 'red'}} onClick={() => handleEdit()}>
-            <MoreHorizIcon />
-          </button>
         </div>
         <div className=''>
           <Typography variant='body2' color='textSecondary'>

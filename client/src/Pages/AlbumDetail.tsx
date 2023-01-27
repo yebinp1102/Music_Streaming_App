@@ -1,13 +1,14 @@
 import { CircularProgress, Paper } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import {useNavigate, useParams } from 'react-router-dom';
-import { getAlbum, getRecommendation } from '../redux/albumSlice';
+import { deleteAlbum, getAlbum, getRecommendation } from '../redux/albumSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import '../Components/CSS/AlbumDetail.css';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import CommentSeaction from '../Components/CommentSeaction';
 import AlbumCard from '../Components/AlbumCard';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 type currentIdType = {
   currentId : string | undefined
@@ -45,6 +46,12 @@ const AlbumDetail:React.FC<currentIdType> = ({currentId, setCurrentId}) => {
     setCurrentId(album._id);
     navigate('/newAlbum', {state : {albumId: album._id}})
   }
+
+  const handleDelete = (id : string) => {
+    dispatch(deleteAlbum(id))
+    alert('삭제 되었습니다.')
+    window.location.replace('/')
+  }
   
   return (
     <div className='detailContainer'>
@@ -55,7 +62,10 @@ const AlbumDetail:React.FC<currentIdType> = ({currentId, setCurrentId}) => {
           <div className='albumEdit'>
             <h1>앨범 정보</h1>
             {user?.data?.result?._id === album?.creator && (
-              <MoreHorizIcon  onClick={() => handleEdit()} />
+              <div>
+                <MoreHorizIcon  onClick={() => handleEdit()} />
+                <DeleteIcon fontSize='small' onClick={() => album._id && handleDelete(album._id)}/>
+              </div>
             )}
           </div>
           <div className='albumSummary' >

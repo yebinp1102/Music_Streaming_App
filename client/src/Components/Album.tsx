@@ -3,8 +3,6 @@ import './CSS/Album.css'
 import { Card, CardActions, Typography, CardContent } from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
-import DeleteIcon from '@material-ui/icons/Delete'
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch } from '../redux/store'
 import { deleteAlbum, likeAlbum } from '../redux/albumSlice'
@@ -24,19 +22,13 @@ type AlbumType = {
 
 type AlbumProps = {
   album: AlbumType,
-  setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>
 }
 // 현재 id 불러오기 
-const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
+const Album: React.FC<AlbumProps> = ({album}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('profile') || '{}')
 
-  const handleDelete = (id : string) => {
-    dispatch(deleteAlbum(id))
-    alert('삭제 되었습니다.')
-    window.location.replace('/')
-  }
 
   const handleLike = (id: string) => {
     dispatch(likeAlbum(id))
@@ -81,12 +73,6 @@ const Album: React.FC<AlbumProps> = ({album, setCurrentId}) => {
         <button color='primary' disabled={!user?.data?.result} onClick={() => album._id && handleLike(album._id)}>
           <LikesIcon />
         </button>
-        {user?.data?.result?._id === album?.creator && (
-          <button  color='secondary' onClick={() => album._id && handleDelete(album._id)}>
-          <DeleteIcon fontSize='small'/>
-        삭제하기
-      </button>
-        )}
       </CardActions>
     </Card>
   )

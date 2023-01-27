@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../redux/store';
 import Album from './Album'
 import './CSS/AllAlbums.css'
 
-const AllAlbums = ({setCurrentId, page} : {setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>, page: number}) => {
+const AllAlbums = ({page} : {page: number}) => {
 
   const dispatch = useAppDispatch();
   const {albums} = useAppSelector(state => state.album);
@@ -27,7 +27,7 @@ const AllAlbums = ({setCurrentId, page} : {setCurrentId : React.Dispatch<React.S
       <Grid container alignItems='stretch' spacing={3}>
         {albums?.map( album => (
           <Grid key={album._id} xs={12} sm={6} item>
-            <Album album={album} setCurrentId={setCurrentId} />
+            <Album album={album}/>
           </Grid>
         ))}
       </Grid>

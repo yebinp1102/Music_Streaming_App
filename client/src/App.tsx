@@ -18,9 +18,9 @@ const App: React.FC = () => {
       <Routes>
         {/* CRUD route */}
         <Route path='/' element={<Navigate replace to="/albums" />} />
-        <Route path='/albums' element={<Home setCurrentId={setCurrentId}/>} />
+        <Route path='/albums' element={<Home />} />
         <Route path='/newAlbum' element={<CreateAlbum currentId={currentId} />} />
-        <Route path='/albums/search' element={<Home setCurrentId={setCurrentId} />} />
+        <Route path='/albums/search' element={<Home />} />
         <Route path='/albums/:id' element={<AlbumDetail  currentId={currentId} setCurrentId={setCurrentId} />} />
         {/* auth route */}
         <Route path='/register' element={!user?.data ? <Register /> : <Navigate replace to="/albums" /> }  />

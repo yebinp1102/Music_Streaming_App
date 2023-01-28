@@ -1,14 +1,18 @@
 import { CircularProgress, Paper } from '@material-ui/core';
 import React, { useEffect } from 'react'
 import {useNavigate, useParams } from 'react-router-dom';
-import { deleteAlbum, getAlbum, getRecommendation } from '../redux/albumSlice';
+import { deleteAlbum, getAlbum, getRecommendation, likeAlbum } from '../redux/albumSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store'
+// CSS
 import '../Components/CSS/AlbumDetail.css';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+// Components
 import CommentSeaction from '../Components/CommentSeaction';
 import AlbumCard from '../Components/AlbumCard';
+// Icons
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import DeleteIcon from '@material-ui/icons/Delete'
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
+import ThumbUpOutlinedIcon from '@material-ui/icons/ThumbUpOutlined';
 
 type currentIdType = {
   currentId : string | undefined
@@ -21,7 +25,6 @@ const AlbumDetail:React.FC<currentIdType> = ({currentId, setCurrentId}) => {
   const {album, recommendation ,isLoading} = useAppSelector(state => state.album);
   const user = JSON.parse(localStorage.getItem('profile') || '{}')
   const navigate = useNavigate();
-  console.log(album?._id)
 
   useEffect(() => {
     if(id) dispatch(getAlbum(id))
@@ -52,6 +55,23 @@ const AlbumDetail:React.FC<currentIdType> = ({currentId, setCurrentId}) => {
     alert('삭제 되었습니다.')
     window.location.replace('/')
   }
+
+  const LikesIcon = (): JSX.Element => {
+    if(album?.likes?.length > 0){
+      return album.likes.find((like) => like === user?.data?.result?._id) 
+      ? (
+        <><ThumbUpAltIcon fontSize='small' />좋아요&nbsp;{album?.likes?.length}</>
+      ) : (
+        <><ThumbUpOutlinedIcon fontSize='small' />좋아요&nbsp;{album?.likes?.length}</>
+      ) 
+    }
+    return <><ThumbUpOutlinedIcon fontSize='small' />좋아요&nbsp;{album?.likes?.length}</>
+  }
+
+  const handleLike = (id: string) => {
+    dispatch(likeAlbum(id))
+    window.location.reload();
+  }
   
   return (
     <div className='detailContainer'>
@@ -80,7 +100,9 @@ const AlbumDetail:React.FC<currentIdType> = ({currentId, setCurrentId}) => {
               <div>
                 <p>발매일 : {album.createdAt?.toString().slice(0, 10)}</p>
                 <p>작곡 : {album.composer}</p>
-                <div className='likeIcon'><ThumbUpAltIcon fontSize='small' /><strong>좋아요 : {album.likes.length}</strong></div>
+                <button className='likeBtn' color='primary' disabled={!user?.data?.result} onClick={() => album._id && handleLike(album._id)}>
+                  <LikesIcon />
+                </button>
               </div>
             </div>
           </div>

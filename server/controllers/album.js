@@ -4,7 +4,7 @@ import Album from "../model/Album.js"
 export const getAlbums = async (req, res) => {
   const {page} = req.query
   try{
-    const limit = 6;
+    const limit = 8;
     const startIndex = (Number(page) - 1) * limit; // 모든 페이지의 시작 인덱스를 값으로 가짐
     const total = await Album.countDocuments({}); 
     const Albums = await Album.find().sort({_id: -1}).limit(limit).skip(startIndex) // 새로운 앨범이 위로 오도록 정렬

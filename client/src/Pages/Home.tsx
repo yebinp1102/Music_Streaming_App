@@ -15,12 +15,20 @@ const Home: React.FC = () => {
 
   return (
     <div className="HomeContainer">
-        <AllAlbums  page={page}/>
-        {!searchQuery && (
-          <Paper elevation={6}>
-            <Paginate page={page} />
-          </Paper>
-        )}
+      <AllAlbums page={page}/>
+      {(searchQuery && page !== 1) && (
+        <Paper elevation={6}>
+          <Paginate page={page} />
+        </Paper>
+      ) }
+
+
+      {/* <AllAlbums  page={page}/>
+      {!searchQuery && (
+        <Paper elevation={6}>
+          <Paginate page={page} />
+        </Paper>
+      )} */}
     </div>
   )
 }

@@ -4,10 +4,10 @@ export interface Album{
   singer: string,
   description: string,
   composer: string,
-  tags: string[],
-  selectedFile: Object | any,
+  selectedFile: string | any,
   likes: string[],
   createdAt: Date | null,
-  creator: string
-  // song: 
+  creator: string,
+  comments: string[],
+  genre: string,
 }

@@ -4,13 +4,23 @@ import Album from "../model/Album.js"
 export const getAlbums = async (req, res) => {
   const {page} = req.query
   try{
-    const limit = 6;
+    const limit = 8;
     const startIndex = (Number(page) - 1) * limit; // 모든 페이지의 시작 인덱스를 값으로 가짐
     const total = await Album.countDocuments({}); 
     const Albums = await Album.find().sort({_id: -1}).limit(limit).skip(startIndex) // 새로운 앨범이 위로 오도록 정렬
     res.status(200).json({data: Albums, currentPage: Number(page), numberOfPage: Math.ceil(total/limit) });
   }catch(err){
     res.status(400).json(err.message)
+  }
+}
+
+export const getAlbum = async (req, res) => {
+  const {id} = req.params;
+  try{
+    const album = await Album.findById(id);
+    res.status(200).json(album)
+  }catch(err){
+    res.status(400).json({message: err.message})
   }
 }
 
@@ -82,14 +92,36 @@ export const likeAlbum = async(req, res) => {
 }
 
 export const getAlbumsBySearch = async(req, res) => {
-  const {searchQuery} = req.query
+  const {searchQuery} = req.params
   try{
     // text의 대소문자 구별 제거
     const title = new RegExp(searchQuery, 'i');
-    // const albums = await Album.find({$or: [ {title} ]});
     const albums = await Album.find({title});
     res.json(albums)
   }catch(err){
-    res.status(400).json({message: err.message})
+    res.status(400).json(err.message)
+  }
+}
+
+export const getRecommendation = async(req, res) => {
+  const {genre} = req.params
+  try{
+    const recommendation = await Album.find({genre}).sort({_id: -1}).limit(4)
+    res.json(recommendation)
+  }catch(err){
+    res.status(400).json(err.message)
+  }
+}
+
+export const commentAlbum = async(req, res) => {
+  const {id} = req.params;
+  const {comment} = req.body;
+  try{
+    const album = await Album.findById(id);
+    album.comments.push(comment);
+    const updatedAlbum = await Album.findByIdAndUpdate(id, album, {new: true})
+    res.json(updatedAlbum);
+  }catch(err){
+    res.status(400).json(err.message)
   }
 }

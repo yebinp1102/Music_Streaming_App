@@ -3,12 +3,25 @@ import * as api from '../api'
 import {Album} from '../redux/interfaces/Album'
 
 
-// Action Creators : 백엔드에서 데이터를 가져오는 과정
+// Home 컴포넌트에서 모든 앨범 정보를 가져올 때 사용하는 API
 export const getAlbums = createAsyncThunk(
   "albums/getAlbums",
   async(page:number, thunkAPI) => {
     try{
       const {data} = await api.fetchAlbums(page);
+      return data
+    }catch(err){
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
+// AlbumDetail 페이지(컴포넌트)에서 특정 앨범 정보 하나만 가져올 때 사용하는 API
+export const getAlbum = createAsyncThunk(
+  "albums/getAlbum",
+  async(id: string, thunkAPI) => {
+    try{
+      const {data} = await api.fetchAlbum(id);
       return data
     }catch(err){
       return thunkAPI.rejectWithValue(err)
@@ -73,9 +86,10 @@ export const likeAlbum = createAsyncThunk(
 
 export const getAlbumBySearch = createAsyncThunk(
   "albums/getAlbumBySearch",
-  async(searchQuery: string, thunkAPI) => {
+  async(search :string, thunkAPI) => {
     try{
-      const {data} = await api.fetchAlbumsBySearch(searchQuery);
+      const {data} = await api.fetchAlbumsBySearch(search);
+      console.log(data);
       return data;
     }catch(err){
       return thunkAPI.rejectWithValue(err)
@@ -83,21 +97,55 @@ export const getAlbumBySearch = createAsyncThunk(
   }
 )
 
+export const getRecommendation = createAsyncThunk(
+  "albums/getRecommendation",
+  async(genre: string, thunkAPI) => {
+    try{
+      const {data} = await api.fetchRecommendation(genre)
+      return data;
+    }catch(err){
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
+
+type commentInfoType = {
+  finalComment: string,
+  id : string
+}
+
+// 댓글
+export const postComment = createAsyncThunk(
+  "albums/postComment",
+  async({finalComment, id} : commentInfoType, thunkAPI) => {
+    try{
+      const {data} = await api.comment(finalComment, id)
+      return data
+    }catch(err){
+      return thunkAPI.rejectWithValue(err)
+    }
+  }
+)
+
+
 // state 초기값
 interface AlbumState {
   albums: Album[] | null;
+  album: Album | null,
+  recommendation : Album[]
   currentPage: number;
   numberOfPage: number;
-  singleAlbum: Album | null;
   errors: any;
   isLoading: boolean;
 }
 
 const initialState: AlbumState = {
   albums: [],
+  album: null,
+  recommendation : [],
   currentPage: 1,
   numberOfPage: 1,
-  singleAlbum: null,
   isLoading: true,
   errors: null,
 }
@@ -117,7 +165,6 @@ export const albumSlice = createSlice({
   // extraReducer는 프로미스의 진행 상태에 따라서 실행되는 리듀서 입니다.
   extraReducers: (builder) => {
     builder.addCase(getAlbums.fulfilled, (state, action) => {
-      state.isLoading = true
       state.albums = action.payload.data;
       state.currentPage = action.payload.currentPage
       state.numberOfPage = action.payload.numberOfPage
@@ -126,8 +173,14 @@ export const albumSlice = createSlice({
     builder.addCase(getAlbums.rejected, (state, action) => {
       state.errors = action.payload
     });
+    builder.addCase(getAlbum.fulfilled, (state, action) => {
+      state.album = action.payload
+      state.isLoading = false;
+    })
+    builder.addCase(getAlbum.rejected, (state, action) => {
+      state.errors = action.payload
+    })
     builder.addCase(createAlbum.fulfilled, (state, action) => {
-      state.isLoading = true
       state.albums?.push(action.payload)
       state.isLoading = false;
     })  
@@ -150,11 +203,23 @@ export const albumSlice = createSlice({
       state.errors = action.payload
     })
     builder.addCase(getAlbumBySearch.fulfilled, (state, action) => {
-      state.isLoading = true
-      state.albums = action.payload;
+      state.isLoading = true;
+      state.albums = action.payload
       state.isLoading = false;
     })
     builder.addCase(getAlbumBySearch.rejected, (state, action) => {
+      state.errors = action.payload
+    })
+    builder.addCase(postComment.fulfilled, (state, action) => {
+      state.album = action.payload;
+    })
+    builder.addCase(postComment.rejected, (state, action) => {
+      state.errors = action.payload
+    })
+    builder.addCase(getRecommendation.fulfilled, (state, action) => {
+      state.recommendation = action.payload;
+    })
+    builder.addCase(getRecommendation.rejected, (state, action) => {
       state.errors = action.payload
     })
   }

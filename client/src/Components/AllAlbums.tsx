@@ -2,16 +2,14 @@ import React, { useCallback, useEffect } from 'react'
 import { Grid, CircularProgress } from '@material-ui/core';
 import { getAlbums } from '../redux/albumSlice';
 import { useAppDispatch, useAppSelector } from '../redux/store';
-import Album from './Album'
 import './CSS/AllAlbums.css'
+import AlbumCard from './AlbumCard';
 
-const AllAlbums = ({setCurrentId, page} : {setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>, page: number}) => {
-
+const AllAlbums = ({page} : {page: number}) => {
   const dispatch = useAppDispatch();
   const {albums} = useAppSelector(state => state.album);
   const {isLoading} = useAppSelector(state => state.album)
-  console.log(albums, isLoading)
-
+  console.log(albums)
 
   const initApp = useCallback(async()=>{
     await dispatch(getAlbums(page));
@@ -25,13 +23,13 @@ const AllAlbums = ({setCurrentId, page} : {setCurrentId : React.Dispatch<React.S
 
   return (
     isLoading ? <CircularProgress/> : (
-      <Grid container alignItems='stretch' spacing={3}>
-        {albums?.map( album => (
-          <Grid key={album._id} xs={12} sm={6} item>
-            <Album album={album} setCurrentId={setCurrentId} />
-          </Grid>
+      <div className='AllAblumsContainer'>
+        {albums?.map(album => (
+          <div>
+            <AlbumCard albumInfo={album} />
+          </div>
         ))}
-      </Grid>
+      </div>
     )
   )
 }

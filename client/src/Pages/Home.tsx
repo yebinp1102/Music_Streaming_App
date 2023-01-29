@@ -8,19 +8,27 @@ function useQuery(){
   return new URLSearchParams(useLocation().search);
 }
 
-const Home= ({setCurrentId} : {setCurrentId : React.Dispatch<React.SetStateAction<string | undefined>>}) => {
+const Home: React.FC = () => {
   const query = useQuery();
   const page = Number(query.get('page')) || 1
   const searchQuery = query.get('searchQuery')
 
   return (
     <div className="HomeContainer">
-        <AllAlbums  setCurrentId={setCurrentId} page={page}/>
-        {!searchQuery && (
-          <Paper elevation={6}>
-            <Paginate page={page} />
-          </Paper>
-        )}
+      <AllAlbums page={page}/>
+      {(searchQuery && page !== 1) && (
+        <Paper elevation={6}>
+          <Paginate page={page} />
+        </Paper>
+      ) }
+
+
+      {/* <AllAlbums  page={page}/>
+      {!searchQuery && (
+        <Paper elevation={6}>
+          <Paginate page={page} />
+        </Paper>
+      )} */}
     </div>
   )
 }

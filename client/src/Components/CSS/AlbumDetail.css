@@ -1,0 +1,95 @@
+.detailContainer{
+  background-color: #000;
+  padding-top: 80px;
+  color: #fff;
+}
+
+.detailWrap{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.detailWrap h1{
+  margin-bottom: 20px;
+}
+
+.albumSummary{
+  border: 1px solid #fff;
+  display: flex;
+  height: 300px;
+}
+
+.albumSummary .albumCover{
+  flex: .2;
+}
+
+.albumDetail{
+  flex: .8;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.albumDetail .songTitle{
+  color: aquamarine;
+}
+
+.albumDetail .songSinger{
+  margin: 5px 0 30px 0;
+}
+
+
+.albumDetail svg{
+  position: relative;
+  top: 3px;
+  margin-right: 10px;
+  color: aquamarine;
+}
+
+.albumDetail p {
+  margin-bottom: 10px;
+}
+
+.albumSummary img{
+  height: 100%;
+}
+
+.albumIntro p{
+  white-space: pre-wrap;
+  line-height: 2;
+}
+
+
+.albumInfo,
+.albumIntro,
+.recommendation,
+.comment{
+  background-color: rgb(30, 30, 30);
+  margin-top: 40px;
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+.recommendationWrap{
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.albumEdit{
+  display: flex;
+  justify-content: space-between;
+}
+
+.likeBtn{
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: transparent;
+  border: none;
+}
+
+.likeBtn:hover{
+  cursor: pointer;
+}
